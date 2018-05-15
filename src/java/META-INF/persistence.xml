@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd ">
+  <persistence-unit name="COAPAC-PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>model.Copia</class>
+    <class>model.Emprestimo</class>
+    <class>model.Limite</class>
+    <class>model.Material</class>
+    <class>model.Usuario</class>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value=""/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="admin"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/coapac"/>
+      <property name="hibernate.show_sql" value="true" />
+      <!-- configurações do pool de conexão -->
+      <property name="connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+      <property name="hibernate.c3p0.acquire_increment" value="4"/>
+      <property name="hibernate.c3p0.min_size" value="5"/>
+      <property name="hibernate.c3p0.max_size" value="30"/>
+      <property name="hibernate.c3p0.max_statements" value="30"/>
+      <property name="hibernate.c3p0.idle_test_period" value="100"/>
+      <property name="hibernate.c3p0.timeout" value="100"/>
+      <property name="javax.persistence.query.timeout" value="100"/>
+    </properties>
+  </persistence-unit>
+</persistence>
