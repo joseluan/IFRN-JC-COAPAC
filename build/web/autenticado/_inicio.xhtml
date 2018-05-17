@@ -91,6 +91,8 @@
                 <h3>
                     <h:outputLabel value="Ultimas cópias feitas" 
                                    rendered="#{not empty copiaBean.minhasCopiasLimite }"/>
+                    <h:outputLabel value="Você ainda não solicitou cópias" 
+                                   rendered="#{empty copiaBean.minhasCopiasLimite }"/>
                 </h3>
             </center>
             <p:repeat value="#{ copiaBean.minhasCopiasLimite }" var="copia" 
