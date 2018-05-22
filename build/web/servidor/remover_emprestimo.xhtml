@@ -9,7 +9,7 @@
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--12-col">
                 <h:form>
-                    <ui:include src="/autenticado/_buscar_emprestimo.xhtml"/>
+                    <ui:include src="/autenticado/_buscar_relatorio.xhtml"/>
                     <p:outputLabel  value="Solicitação:"
                                     style="padding: 15px;"/>
                     <p:selectOneMenu id="tipo" value="#{emprestimoBean.emprestimo.solicitacao}" style="width:125px;top: 5px;">
@@ -27,6 +27,7 @@
                         <f:selectItem itemLabel="Emprestado" itemValue="EMPRESTADO" />
                         <f:selectItem itemLabel="Entregue" itemValue="ENTREGUE" />
                     </p:selectOneMenu>
+                    
                     <h:commandButton class="mdl-button mdl-js-button mdl-button--primary" 
                                      value="pesquisar" 
                                      title="pesquisar um empréstimo"
@@ -65,8 +66,8 @@
                         <p:column headerText="Nome Usuário" sortBy="#{emprestimo.usuario_sol.nome}">
                             <h:outputText value="#{emprestimo.usuario_sol.nome}"/>
                         </p:column>
-                        <p:column headerText="Data" sortBy="#{emprestimo.data}" width="100">
-                            <h:outputText value="#{formatador.formatarData(emprestimo.data)}"/>
+                        <p:column headerText="Data de expiração" sortBy="#{emprestimo.data_expiracao}" width="100">
+                            <h:outputText value="#{formatador.formatarData(emprestimo.data_expiracao)}"/>
                         </p:column>
                         <p:column headerText="Detalhes" width="230">
                             <center>

@@ -53,8 +53,8 @@
                     <p:column headerText="Nome - Emprestimo" sortBy="#{emprestimo.usuario_emp.nome}">
                         <h:outputText value="#{emprestimo.usuario_emp.nome}"/>
                     </p:column>
-                    <p:column headerText="Data Vencimento" sortBy="#{emprestimo.data}" width="100">
-                        <h:outputText value="#{formatador.formatarData(emprestimo.data)}"/>
+                    <p:column headerText="Data expiração" sortBy="#{emprestimo.data_expiração}" width="100">
+                        <h:outputText value="#{formatador.formatarData(emprestimo.data_expiração)}"/>
                     </p:column>
                     <p:column headerText="Data Entrega" sortBy="#{emprestimo.data_entrega}" width="100">
                         <h:outputText value="#{formatador.formatarData(emprestimo.data_entrega)}"/>

@@ -13,7 +13,6 @@ import javax.persistence.Query;
 import br.com.ifrn.coapac.model.Copia;
 import br.com.ifrn.coapac.model.Limite;
 import br.com.ifrn.coapac.model.Usuario;
-import br.com.ifrn.coapac.utils.AbstractController;
 import br.com.ifrn.coapac.utils.PagingInformation;
 import br.com.ifrn.coapac.utils.ValidatorUtil;
 
@@ -21,7 +20,7 @@ import br.com.ifrn.coapac.utils.ValidatorUtil;
  *
  * @author Luan
  */
-public class CopiaDAO extends AbstractController implements Serializable{
+public class CopiaDAO implements Serializable{
 
     public Copia getById(int id) {
         EntityManager em = Database.getInstance().getEntityManager();
@@ -29,7 +28,7 @@ public class CopiaDAO extends AbstractController implements Serializable{
         return c;
     }
 
-    public List<Copia> minhaLista(Usuario usuario, int max) {
+    public List<Copia> minhaLista(Usuario usuario_session, Usuario usuario, int max) {
         EntityManager em = Database.getInstance().getEntityManager();
         Query query = em.createQuery("SELECT x FROM Copia x WHERE x.usuario.id = :id ORDER BY x.data_copia");
         query.setMaxResults(20);
@@ -46,18 +45,13 @@ public class CopiaDAO extends AbstractController implements Serializable{
         return lista;
     }
 
-    public void persist(Copia copia) {
+    public void persist(Usuario usuario_session, Copia copia) {
         EntityManager em = Database.getInstance().getEntityManager();
         try {
             em.getTransaction().begin();
             copia.setData_copia(new Date());
             Usuario usuario = copia.getUsuario();
             usuario.setQuantidade_copia(usuario.getQuantidade_copia() - copia.getQuantidade());
-            if (usuario_session.getId() == copia.getUsuario().getId()) {
-                //--- Mudando a Session
-                getCurrentSession().removeAttribute("usuario");
-                getCurrentSession().setAttribute("usuario", usuario);
-            }
             
             em.merge(usuario);
             em.persist(copia);
@@ -112,11 +106,6 @@ public class CopiaDAO extends AbstractController implements Serializable{
             Copia copia = em.find(Copia.class, copia_rm.getId());
             Usuario usuario = copia.getUsuario();
             usuario.setQuantidade_copia(usuario.getQuantidade_copia() + copia.getQuantidade());
-            //--- Mudando a Session
-            usuario_session.setQuantidade_copia(usuario_session.getQuantidade_copia()
-                    + copia.getQuantidade());
-            getCurrentSession().removeAttribute("usuario");
-            getCurrentSession().setAttribute("usuario", usuario_session);
 
             em.merge(usuario);
             em.remove(copia);
@@ -206,14 +195,6 @@ public class CopiaDAO extends AbstractController implements Serializable{
             e.printStackTrace();
             return null;
         }
-    }
-
-    public Usuario getUsuario_session() {
-        return usuario_session;
-    }
-
-    public void setUsuario_session(Usuario usuario_session) {
-        this.usuario_session = usuario_session;
     }
 
 }

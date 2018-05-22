@@ -10,10 +10,8 @@ import br.com.ifrn.coapac.dao.EmprestimoDAO;
 import br.com.ifrn.coapac.dao.UsuarioDAO;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.servlet.http.HttpSession;
 import br.com.ifrn.coapac.model.Copia;
 import br.com.ifrn.coapac.model.Emprestimo;
 import br.com.ifrn.coapac.model.Usuario;
@@ -27,14 +25,13 @@ import br.com.ifrn.coapac.utils.PagingInformation;
  */
 @ManagedBean
 @ViewScoped
-public class UsuarioBean extends AbstractController implements Serializable{
+public class UsuarioBean extends AbstractController implements Serializable {
+
     private Usuario usuario = new Usuario();
     private Usuario usuario_busca;
     private int copia;
     private List<Usuario> usuarios;
-    public HttpSession session = getCurrentSession();
-    public Usuario usuario_session = (Usuario) session.getAttribute("usuario");
-    
+
     /**
      * Quantidade de c�digos a serem exibidos por p�gina.
      */
@@ -42,45 +39,45 @@ public class UsuarioBean extends AbstractController implements Serializable{
     /**
      * Armazena as op��es de pagina��o de consulta a c�digos.
      */
-    public PagingInformation paginacao;
+    public PagingInformation paginacao = new PagingInformation(0, QTD_CODIGOS);
 
-    @PostConstruct
-    public void init() {
-        paginacao = new PagingInformation(0, QTD_CODIGOS);
-    }
-    
     public String atualizar() {
         UsuarioDAO uDAO = new UsuarioDAO();
-        
+
         usuario.setSenha(Criptografia.esconderMD5(usuario.getSenha()));
         uDAO.merge(usuario);
         return null;
     }
-    
+
     public String atualizar(Usuario user) {
         UsuarioDAO uDAO = new UsuarioDAO();
         uDAO.merge(user);
+        if (usuario_session.getId() == user.getId()) {
+            //--- Mudando a Session
+            getCurrentSession().removeAttribute("usuario");
+            getCurrentSession().setAttribute("usuario", user);
+        }
         return null;
     }
-   
+
     public List<Emprestimo> getEmprestimosPara() {
         EmprestimoDAO eDAO = new EmprestimoDAO();
-        List<Emprestimo> lista = eDAO.minhaLista(usuario_busca,0);
+        List<Emprestimo> lista = eDAO.minhaLista(usuario_session, usuario_busca, 0);
         return lista;
     }
-    
+
     public List<Copia> getCopiasPara() {
         CopiaDAO cDAO = new CopiaDAO();
-        List<Copia> lista = cDAO.minhaLista(usuario_busca,0);
+        List<Copia> lista = cDAO.minhaLista(usuario_session, usuario_busca, 0);
         return lista;
     }
-    
+
     /**
      * M�todo chamado para redirecionar para a pr�xima p�gina da pagina��o,
      * referente � listagem de publica��es.
      *
      * @return
-    */
+     */
     public String next() {
         paginacao.nextPage(null);
         listaFiltro();
@@ -90,14 +87,15 @@ public class UsuarioBean extends AbstractController implements Serializable{
     /**
      * M�todo chamado para redirecionar para a p�gina anterior da pagina��o,
      * referente � listagem de publica��es.
-     * @return 
+     *
+     * @return
      */
     public String previous() {
         paginacao.previousPage(null);
         listaFiltro();
         return null;
     }
-    
+
     /**
      * Mude a página atual da paginação de acordo com o parâmetro informado,
      * referente à listagem de publicações.
@@ -110,18 +108,19 @@ public class UsuarioBean extends AbstractController implements Serializable{
         listaFiltro();
         return null;
     }
-    
-    public String listaFiltro(){
+
+    public String listaFiltro() {
         UsuarioDAO uDAO = new UsuarioDAO();
-        usuarios = uDAO.lista(usuario,paginacao);
+        usuarios = uDAO.lista(usuario, paginacao);
         return null;
     }
-    public String buscarFiltro(){
+
+    public String buscarFiltro() {
         UsuarioDAO uDAO = new UsuarioDAO();
         usuario_busca = uDAO.getUsuario(usuario);
         return null;
     }
-    
+
     //GET E SET
     public Usuario getUsuario() {
         return usuario;
@@ -170,5 +169,5 @@ public class UsuarioBean extends AbstractController implements Serializable{
     public void setCopia(int copia) {
         this.copia = copia;
     }
-    
+
 }

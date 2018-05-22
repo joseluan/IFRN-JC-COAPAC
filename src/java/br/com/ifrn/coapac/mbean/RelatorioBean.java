@@ -5,7 +5,6 @@
  */
 package br.com.ifrn.coapac.mbean;
 
-import br.com.ifrn.coapac.dao.UsuarioDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ import br.com.ifrn.coapac.model.Copia;
 import br.com.ifrn.coapac.model.Emprestimo;
 import br.com.ifrn.coapac.model.TipoUsuario;
 import br.com.ifrn.coapac.model.Usuario;
+import br.com.ifrn.coapac.utils.AbstractController;
 
 /**
  *
@@ -22,20 +22,19 @@ import br.com.ifrn.coapac.model.Usuario;
  */
 @ManagedBean
 @RequestScoped
-public class RelatorioBean implements Serializable{
+public class RelatorioBean extends AbstractController implements Serializable{
     private Usuario usuario;
     private Emprestimo emprestimo;
     private List<Emprestimo> emprestimos;
     private List<Copia> copias;
-    private UsuarioDAO dao = new UsuarioDAO();
     private final String BOLSISTA = "bolsista";
     private final String SERVIDOR = "servidor";
     
     public String selecionar_usuarioNC(Usuario user) {
         usuario = user;
-        if (dao.usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
+        if (usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
             return "/"+SERVIDOR+"/nada_consta";
-        }else if(dao.usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
+        }else if(usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
             return "/"+BOLSISTA+"/nada_consta";
         }
         return null;
@@ -43,9 +42,9 @@ public class RelatorioBean implements Serializable{
     
     public String selecionar_emprestimo(Emprestimo emp) {
         emprestimo = emp;
-        if (dao.usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
+        if (usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
             return "/"+SERVIDOR+"/detalhe_emprestimo";
-        }else if(dao.usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
+        }else if(usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
             return "/"+BOLSISTA+"/detalhe_emprestimo";
         }
         return null;
@@ -53,9 +52,9 @@ public class RelatorioBean implements Serializable{
        
     public String selecionar_emprestimos(ArrayList<Emprestimo> emps) {
         emprestimos = emps;
-        if (dao.usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
+        if (usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
             return "/"+SERVIDOR+"/imprimir_relatorio_emp";
-        }else if(dao.usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
+        }else if(usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
             return "/"+BOLSISTA+"/imprimir_relatorio_emp";
         }
         return null;
@@ -63,9 +62,9 @@ public class RelatorioBean implements Serializable{
     
     public String selecionar_copias(ArrayList<Copia> cps) {
         copias = cps;
-        if (dao.usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
+        if (usuario_session.getAcesso() == TipoUsuario.SERVIDOR) {
             return "/"+SERVIDOR+"/imprimir_relatorio_cop";
-        }else if(dao.usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
+        }else if(usuario_session.getAcesso() == TipoUsuario.BOLSISTA){
             return "/"+BOLSISTA+"/imprimir_relatorio_cop";
         }
         return null;

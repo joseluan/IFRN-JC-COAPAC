@@ -34,7 +34,7 @@
                         <th class="mdl-data-table__cell--non-numeric">Nome - Material</th>
                         <th>Matricula</th>
                         <th class="mdl-data-table__cell--non-numeric">Nome - Usuário</th>
-                        <th class="mdl-data-table__cell--non-numeric">Data - Vencimento</th>
+                        <th class="mdl-data-table__cell--non-numeric">Data - expiração</th>
                         <th class="mdl-data-table__cell--non-numeric">Data - Entrega</th>
                     </tr>
                 </thead>
@@ -48,7 +48,7 @@
                             <td class="mdl-data-table__cell--non-numeric">#{emprestimo.material.nome}</td>
                             <td>#{emprestimo.usuario_sol.matricula}</td>
                             <td class="mdl-data-table__cell--non-numeric">#{emprestimo.usuario_sol.nome}</td>
-                            <td class="mdl-data-table__cell--non-numeric">#{formatador.formatarData(emprestimo.data)}</td>
+                            <td class="mdl-data-table__cell--non-numeric">#{formatador.formatarData(emprestimo.data_expiracao)}</td>
                             <td class="mdl-data-table__cell--non-numeric">#{formatador.formatarData(emprestimo.data_entrega)}</td>
                         </tr>
                     </ui:repeat>

@@ -1,1 +1,0 @@
-mbean.ChartView

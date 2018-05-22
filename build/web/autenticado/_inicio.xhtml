@@ -78,8 +78,8 @@
                         <h:outputText value="Nome código:" />
                         <h:outputText rendered="#{not empty emprestimo.material.codigo};" value="#{emprestimo.material.codigo}" style="font-weight: bold"/>
                         <h:outputText rendered="#{empty emprestimo.material.codigo};" value="NULL" style="font-weight: bold"/>
-                        <h:outputText value="Data:" />
-                        <h:outputText value="#{formatador.formatarData(emprestimo.data)}" style="font-weight: bold"/>
+                        <h:outputText value="Data de expiração:" />
+                        <h:outputText value="#{formatador.formatarData(emprestimo.data_expiracao)}" style="font-weight: bold"/>
                     </h:panelGrid>
                 </p:repeat>
             </h:panelGroup>
@@ -108,7 +108,7 @@
                     <h:outputText value="#{copia.quantidade}" 
                                   style="font-weight: bold"
                                   class="fonteLLISTA"/>
-                    <h:outputText value="Data:" 
+                    <h:outputText value="Data de expiração:" 
                                   class="fonteLLISTA"/>
                     <h:outputText value="#{formatador.formatarData(copia.data_copia)}" 
                                   style="font-weight: bold"

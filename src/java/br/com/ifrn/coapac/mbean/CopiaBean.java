@@ -25,7 +25,7 @@ import br.com.ifrn.coapac.utils.ValidatorUtil;
  */
 @ManagedBean
 @ViewScoped
-public class CopiaBean extends AbstractController implements Serializable{
+public class CopiaBean extends AbstractController implements Serializable {
 
     private Usuario usuario = new Usuario();
     private Copia copia = new Copia();
@@ -53,13 +53,13 @@ public class CopiaBean extends AbstractController implements Serializable{
 
     public List<Copia> getMinhasCopias() {
         CopiaDAO cDAO = new CopiaDAO();
-        List<Copia> lista = cDAO.minhaLista(null,0);
+        List<Copia> lista = cDAO.minhaLista(usuario_session, null, 0);
         return lista;
     }
-    
+
     public List<Copia> getMinhasCopiasLimite() {
         CopiaDAO cDAO = new CopiaDAO();
-        List<Copia> lista = cDAO.minhaLista(null,5);
+        List<Copia> lista = cDAO.minhaLista(usuario_session, null, 5);
         return lista;
     }
 
@@ -73,7 +73,7 @@ public class CopiaBean extends AbstractController implements Serializable{
         CopiaDAO cDAO = new CopiaDAO();
         if (ValidatorUtil.isNotEmpty(copias)) {
             if (copias.size() == 1) {
-                 paginacao.setPaginaAtual(0);
+                paginacao.setPaginaAtual(0);
             }
         }
         if (ValidatorUtil.isNotEmpty(inicio) && ValidatorUtil.isNotEmpty(fim)) {
@@ -93,19 +93,30 @@ public class CopiaBean extends AbstractController implements Serializable{
     public String remover(Copia copia_rm) {
         CopiaDAO cDAO = new CopiaDAO();
         cDAO.remove(copia_rm);
+        //--- Mudando a Session
+        usuario_session.setQuantidade_copia(usuario_session.getQuantidade_copia()
+                + copia_rm.getQuantidade());
+        getCurrentSession().removeAttribute("usuario");
+        getCurrentSession().setAttribute("usuario", usuario_session);
+
         listaFiltro();
         return null;
     }
 
     public String adicionar() {
         CopiaDAO cDAO = new CopiaDAO();
-        
+
         copia.setUsuario(usuario);
         if (ValidatorUtil.isEmpty(usuario.getId())) {
-            copia.setUsuario(cDAO.usuario_session);
+            copia.setUsuario(usuario_session);
         }
 
-        cDAO.persist(copia);
+        cDAO.persist(usuario_session, copia);
+        //--- Mudando a Session
+        if (usuario_session.getId() == copia.getUsuario().getId()) {   
+            getCurrentSession().removeAttribute("usuario");
+            getCurrentSession().setAttribute("usuario", usuario);
+        }
         copia = new Copia();
         return null;
     }
@@ -133,7 +144,7 @@ public class CopiaBean extends AbstractController implements Serializable{
         listaFiltro();
         return null;
     }
-    
+
     /**
      * Mude a página atual da paginação de acordo com o parâmetro informado,
      * referente à listagem de publicações.
@@ -146,7 +157,7 @@ public class CopiaBean extends AbstractController implements Serializable{
         listaFiltro();
         return null;
     }
-    
+
     public Copia getCopia() {
         return copia;
     }

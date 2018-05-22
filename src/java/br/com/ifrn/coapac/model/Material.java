@@ -34,6 +34,8 @@ public class Material implements Serializable{
     @Column(nullable = false)
     private TipoMaterial tipo;
     
+    private Ativo isAtivo;
+    
     @Transient
     private Integer qtdEmprestimos;
 
@@ -92,7 +94,13 @@ public class Material implements Serializable{
     public void setQtdEmprestimos(Integer qtdEmprestimos) {
         this.qtdEmprestimos = qtdEmprestimos;
     }
-    
-    
+
+    public Ativo getIsAtivo() {
+        return isAtivo;
+    }
+
+    public void setIsAtivo(Ativo isAtivo) {
+        this.isAtivo = isAtivo;
+    }
     
 }

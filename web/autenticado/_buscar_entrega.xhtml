@@ -19,6 +19,14 @@
         <label class="mdl-textfield__label" for="codigo">Código do Material...</label>
     </div>
 
+    <p:outputLabel  value="Ativo:"
+                    style="padding: 15px;"/>
+    <p:selectOneMenu id="ativo" value="#{emprestimoBean.emprestimo.material.isAtivo}" style="width:125px;top: 5px;">
+        <f:selectItem itemLabel="Verdadeiro" itemValue="VERDADEIRO" />
+        <f:selectItem itemLabel="Falso" itemValue="FALSO" />
+        <f:selectItem itemLabel="Ambos" itemValue="AMBOS" />
+    </p:selectOneMenu>
+
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <h:inputText class="mdl-textfield__input" id="matricula"
                      value="#{ emprestimoBean.emprestimo.usuario_sol.matricula }"/>

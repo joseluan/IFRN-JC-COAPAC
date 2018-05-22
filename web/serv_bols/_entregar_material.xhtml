@@ -10,7 +10,7 @@
     <h:form>
         <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--12-col">
-                <ui:include src="/autenticado/_buscar_emprestimo.xhtml"/>
+                <ui:include src="/autenticado/_buscar_entrega.xhtml"/>
                 <h:commandButton class="mdl-button mdl-js-button mdl-button--primary" 
                                  value="pesquisar"
                                  action="#{ emprestimoBean.listaFiltro }"
@@ -51,8 +51,8 @@
                     <h:outputText value="#{emprestimo.usuario_sol.nome}" />
                 </p:column>
 
-                <p:column headerText="Data de expiração" sortBy="#{emprestimo.data}">
-                    <h:outputText value="#{emprestimo.data}" />
+                <p:column headerText="Data de expiração" sortBy="#{emprestimo.data_expiracao}">
+                    <h:outputText value="#{emprestimo.data_expiracao}" />
                 </p:column>
                 <p:column headerText="">
                     <center>

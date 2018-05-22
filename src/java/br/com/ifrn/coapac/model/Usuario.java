@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 @Entity
 public class Usuario implements Serializable{
@@ -39,6 +40,9 @@ public class Usuario implements Serializable{
     
     @Column(nullable = false)
     private int quantidade_copia;
+    
+    @Transient
+    private boolean isSession;
 
     public int getId() {
         return id;
@@ -110,6 +114,14 @@ public class Usuario implements Serializable{
 
     public void setQuantidade_copia(int quantidade_copia) {
         this.quantidade_copia = quantidade_copia;
+    }
+
+    public boolean isIsSession() {
+        return isSession;
+    }
+
+    public void setIsSession(boolean isSession) {
+        this.isSession = isSession;
     }
     
 }

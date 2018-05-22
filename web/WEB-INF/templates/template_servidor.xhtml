@@ -51,8 +51,8 @@
                             icon="ui-icon-disk" title="adicionar um mateiral no sistema"/>
                 <p:menuitem value="Alterar" outcome="/${acesso}/alterar_material" 
                             icon="ui-icon-pencil" title="alterar um material"/>
-                <p:menuitem value="Remover" outcome="/${acesso}/remover_material" 
-                            icon="ui-icon-close" title="remover um material"/>
+                <p:menuitem value="Inativar" outcome="/${acesso}/remover_material" 
+                            icon="ui-icon-close" title="inativar um material"/>
             </p:submenu>
 
             <p:submenu label="Cópia">
@@ -67,8 +67,11 @@
                             icon="ui-icon-arrowrefresh-1-w" title="solicitar um empréstimo de material"/>
                 <p:menuitem value="Entregar Material" outcome="/${acesso}/entregar_material" 
                             icon="ui-icon-disk" title="devolver um material para a COAPAC"/>
-                <p:menuitem value="Remover" outcome="/${acesso}/remover_emprestimo" 
+                <p:menuitem value="Remover empréstimo" outcome="/${acesso}/remover_emprestimo" 
                             icon="ui-icon-close" title="remover um registro de empréstimo"/>
+                <p:menuitem value="Remover minhas solicitações" outcome="/${acesso}/minhas_solicitacoes_material" 
+                            icon="ui-icon-close" 
+                            title="remover minhas solicitações de material"/>
                 <p:menuitem value="Relatório empréstimo" outcome="/${acesso}/relatorio_emprestimo" 
                             icon="ui-icon-document" title="gerar um relatório de empréstimos"/>
                 <p:menuitem value="Solicitações de Material" outcome="/${acesso}/solicitacao_emprestimo"

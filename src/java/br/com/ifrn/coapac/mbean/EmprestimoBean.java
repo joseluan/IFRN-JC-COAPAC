@@ -58,19 +58,28 @@ public class EmprestimoBean extends AbstractController implements Serializable {
 
     public List<Emprestimo> getMeusEmprestimos() {
         EmprestimoDAO eDAO = new EmprestimoDAO();
-        List<Emprestimo> lista = eDAO.minhaLista(null, 20);
+        List<Emprestimo> lista = eDAO.minhaLista(usuario_session, null, 20);
         return lista;
+    }
+    
+    public String minhasSolicitacoes() {
+        Usuario ubusca = usuario_session;
+        //Identificar no DAO o que é usuario_session
+        ubusca.setIsSession(true);
+        emprestimo.setUsuario_sol(ubusca);
+        listaFiltro();
+        return null;
     }
 
     public List<Emprestimo> getEmprestimosPara(Usuario usuario_busca) {
         EmprestimoDAO eDAO = new EmprestimoDAO();
-        List<Emprestimo> lista = eDAO.minhaLista(usuario_busca, 0);
+        List<Emprestimo> lista = eDAO.minhaLista(usuario_session, usuario_busca, 0);
         return lista;
     }
 
     public List<Emprestimo> getListaExpirado() {
         EmprestimoDAO eDAO = new EmprestimoDAO();
-        List<Emprestimo> lista = eDAO.buscarInadimplente();
+        List<Emprestimo> lista = eDAO.buscarInadimplente(usuario_session);
         if (ValidatorUtil.isEmpty(lista)) {
             return null;
         }
@@ -105,10 +114,11 @@ public class EmprestimoBean extends AbstractController implements Serializable {
         }
         return null;
     }
-
+    
+    //pagina de inicio
     public List<Emprestimo> getListaSolicitacao() {
         EmprestimoDAO eDAO = new EmprestimoDAO();
-        List<Emprestimo> lista = eDAO.buscarSolicitacoes(5);
+        List<Emprestimo> lista = eDAO.buscarSolicitacoes(usuario_session, 5);
         return lista;
     }
 
@@ -132,7 +142,7 @@ public class EmprestimoBean extends AbstractController implements Serializable {
             selecionado.setMaterial(m);
             Date d = new Date();
             //--- verifica se é aluno ou servidor
-            if (eDAO.usuario_session.getTipo() == TipoUsuario.ALUNO) {
+            if (usuario_session.getTipo() == TipoUsuario.ALUNO) {
                 //--- Define a quantidade de dias para pode entregar o material
                 switch (m.getTipo()) {
                     case ARMARIO:
@@ -144,7 +154,7 @@ public class EmprestimoBean extends AbstractController implements Serializable {
                         d.setDate(d.getDate() + 1);//1 dia
                         break;
                 }
-            } else if (eDAO.usuario_session.getTipo() == TipoUsuario.SERVIDOR) {
+            } else if (usuario_session.getTipo() == TipoUsuario.SERVIDOR) {
                 //--- Define a quantidade de dias para pode entregar o material
                 switch (m.getTipo()) {
                     case ARMARIO:
@@ -161,16 +171,16 @@ public class EmprestimoBean extends AbstractController implements Serializable {
                         break;
                 }
             }
-            selecionado.setData(d);
+            selecionado.setData_expiracao(d);
         }
 
         //Impede que o bolsista aprove sua própia solicitação de empréstimo
-        if (eDAO.usuario_session.getAcesso().equals(TipoUsuario.BOLSISTA)
+        if (usuario_session.getAcesso().equals(TipoUsuario.BOLSISTA)
                 && selecionado.getUsuario_sol().getAcesso().equals(TipoUsuario.BOLSISTA)) {
             return null;
         }
 
-        selecionado.setUsuario_emp(eDAO.usuario_session);
+        selecionado.setUsuario_emp(usuario_session);
         eDAO.merge(selecionado);
         listaFiltro();
         return null;
@@ -180,7 +190,7 @@ public class EmprestimoBean extends AbstractController implements Serializable {
         EmprestimoDAO eDAO = new EmprestimoDAO();
 
         selecionado.setSituacao(TipoSituacao.ENTREGUE);
-        selecionado.setUsuario_ent(eDAO.usuario_session);
+        selecionado.setUsuario_ent(usuario_session);
         selecionado.setData_entrega(new Date());
 
         Material m = selecionado.getMaterial();

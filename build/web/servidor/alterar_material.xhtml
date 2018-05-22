@@ -14,6 +14,13 @@
             <div class="mdl-cell mdl-cell--12-col">
                 <h:form>
                     <ui:include src="/autenticado/_buscar_material.xhtml"/>
+                    <p:outputLabel  value="Ativo:"
+                                    style="padding: 15px;"/>
+                    <p:selectOneMenu id="ativo" value="#{materialBean.material.isAtivo}" style="width:125px;top: 5px;">
+                        <f:selectItem itemLabel="Verdadeiro" itemValue="VERDADEIRO" />
+                        <f:selectItem itemLabel="Falso" itemValue="FALSO" />
+                        <f:selectItem itemLabel="Ambos" itemValue="AMBOS" />
+                    </p:selectOneMenu>
                     <h:commandButton class="mdl-button mdl-js-button mdl-button--primary" 
                                      value="pesquisar"
                                      action="#{ materialBean.listaFiltro() }"
@@ -46,6 +53,9 @@
                             </p:column>
                             <p:column headerText="Quantidade" sortBy="#{material.quantidade}">
                                 <h:outputText value="#{material.quantidade}" />
+                            </p:column>
+                            <p:column headerText="Ativo" sortBy="#{material.isAtivo}">
+                                <h:outputText value="#{material.isAtivo}" />
                             </p:column>
                             <p:column headerText="Ações">      
                                 <center>
@@ -85,6 +95,12 @@
                             <f:selectItem itemLabel="Diário" itemValue="DIARIO" />
                             <f:selectItem itemLabel="Livro" itemValue="LIVRO" />
                             <f:selectItem itemLabel="Armario" itemValue="ARMARIO" />
+                        </p:selectOneRadio>
+
+                        <h:outputText value="Ativo:" />
+                        <p:selectOneRadio value="#{materialBean.materialSelecionado.isAtivo}">
+                            <f:selectItem itemLabel="Verdadeiro" itemValue="VERDADEIRO" />
+                            <f:selectItem itemLabel="Falso" itemValue="FALSO" />
                         </p:selectOneRadio>
                     </p:panelGrid> 
                     <h:inputHidden value="#{materialBean.materialSelecionado.id}"/>

@@ -15,7 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import br.com.ifrn.coapac.model.TipoUsuario;
 import br.com.ifrn.coapac.model.Usuario;
-import br.com.ifrn.coapac.utils.AbstractController;
 import br.com.ifrn.coapac.utils.Criptografia;
 import br.com.ifrn.coapac.utils.PagingInformation;
 import br.com.ifrn.coapac.utils.ValidatorUtil;
@@ -24,7 +23,7 @@ import br.com.ifrn.coapac.utils.ValidatorUtil;
  *
  * @author Luan
  */
-public class UsuarioDAO extends AbstractController implements Serializable{
+public class UsuarioDAO implements Serializable{
 
     public Usuario getUsuario(Usuario usuario) {
         try {
@@ -115,11 +114,6 @@ public class UsuarioDAO extends AbstractController implements Serializable{
         EntityManager em = Database.getInstance().getEntityManager();
         try {
             em.getTransaction().begin();
-            if (usuario_session.getId() == usuario.getId()) {
-                //--- Mudando a Session
-                getCurrentSession().removeAttribute("usuario");
-                getCurrentSession().setAttribute("usuario", usuario);
-            }
             em.merge(usuario);
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -199,14 +193,6 @@ public class UsuarioDAO extends AbstractController implements Serializable{
             e.printStackTrace();
             return null;
         }
-    }
-
-    public Usuario getUsuario_session() {
-        return usuario_session;
-    }
-
-    public void setUsuario_session(Usuario usuario_session) {
-        this.usuario_session = usuario_session;
     }
 
 }

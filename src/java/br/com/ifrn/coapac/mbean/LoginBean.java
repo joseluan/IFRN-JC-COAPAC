@@ -23,13 +23,12 @@ import br.com.ifrn.coapac.utils.ValidatorUtil;
 public class LoginBean extends AbstractController implements Serializable{
 
     private Usuario usuario = new Usuario();
-    private HashMap meus_dados;
     
     public String login() throws IOException {
-        //EntityManager manager = this.getEntityManager();
         UsuarioDAO uDAO = new UsuarioDAO();
         boolean userInSUAP;
         boolean login = false;
+        HashMap meus_dados = null;
         
         if (!validarLogin()) {
             addMsgError("Login ou senha não informados");

@@ -38,7 +38,7 @@ public class Emprestimo implements Serializable{
     private Material material;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date data;
+    private Date data_expiracao;
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date data_entrega;
@@ -81,14 +81,14 @@ public class Emprestimo implements Serializable{
         this.material = material;
     }
 
-    public Date getData() {
-        return data;
+    public Date getData_expiracao() {
+        return data_expiracao;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setData_expiracao(Date data_expiracao) {
+        this.data_expiracao = data_expiracao;
     }
-
+    
     public TipoSituacao getSituacao() {
         return situacao;
     }

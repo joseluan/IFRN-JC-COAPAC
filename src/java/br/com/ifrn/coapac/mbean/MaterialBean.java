@@ -7,9 +7,9 @@ package br.com.ifrn.coapac.mbean;
 
 import br.com.ifrn.coapac.dao.EmprestimoDAO;
 import br.com.ifrn.coapac.dao.MaterialDAO;
+import br.com.ifrn.coapac.model.Ativo;
 import java.io.Serializable;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.ifrn.coapac.model.Material;
@@ -36,12 +36,7 @@ public class MaterialBean extends AbstractController implements Serializable{
     /**
      * Armazena as op��es de pagina��o de consulta a c�digos.
      */
-    public PagingInformation paginacao;
-
-    @PostConstruct
-    public void init() {
-        paginacao = new PagingInformation(0, QTD_CODIGOS);
-    }
+    public PagingInformation paginacao = new PagingInformation(0, QTD_CODIGOS);
     
     public int getQtdMaterial() {
         MaterialDAO mDAO = new MaterialDAO();
@@ -56,7 +51,7 @@ public class MaterialBean extends AbstractController implements Serializable{
                  paginacao.setPaginaAtual(0);
             }
         }
-        materiais = mDAO.buscarFiltro(material,paginacao);
+        materiais = mDAO.buscarFiltro(usuario_session,material,paginacao);
         return null;
     }
     
@@ -69,6 +64,7 @@ public class MaterialBean extends AbstractController implements Serializable{
 
     public String adicionar() throws InterruptedException {
         MaterialDAO mDAO = new MaterialDAO();
+        material.setIsAtivo(Ativo.VERDADEIRO);
         mDAO.persist(material);
         material = new Material();
         return null;
@@ -76,7 +72,7 @@ public class MaterialBean extends AbstractController implements Serializable{
     
     public String adicionarEmprestimo() throws InterruptedException {
         EmprestimoDAO eDAO = new EmprestimoDAO();
-        eDAO.persist(materialSelecionado);
+        eDAO.persist(usuario_session, materialSelecionado);
         listaFiltro();
         return null;
     }

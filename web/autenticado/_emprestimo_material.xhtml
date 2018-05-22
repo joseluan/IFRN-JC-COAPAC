@@ -13,7 +13,9 @@
                 <ui:include src="/autenticado/_buscar_material.xhtml"/>
                 <h:commandButton class="mdl-button mdl-js-button mdl-button--primary" value="pesquisar"
                                  action="#{ materialBean.listaFiltro }"
-                                 title="pesquisar um material"/>
+                                 title="pesquisar um material">
+                    <f:setPropertyActionListener value="VERDADEIRO" target="#{materialBean.material.isAtivo}"/>
+                </h:commandButton>
             </div>
         </div>
     </h:form>
