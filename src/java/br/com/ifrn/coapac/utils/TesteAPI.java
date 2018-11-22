@@ -9,25 +9,18 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
-public class API {
+public class TesteAPI {
 
     private static String token;
     private static String matricula;
     private static String senha;
     private static HashMap<String, String> meus_dados;
 
-    public API(String matricula, String senha) {
+    public TesteAPI(String matricula, String senha) {
         setMatricula(matricula);
         setSenha(senha);
     }
@@ -36,8 +29,8 @@ public class API {
 	public String buscarToken() throws IOException {
         //Pegando o Token com POST
         Form form = Form.form();
-        form.add("username", API.matricula);
-        form.add("password", API.senha);
+        form.add("username", TesteAPI.matricula);
+        form.add("password", TesteAPI.senha);
 
         HttpResponse response = Request.Post("https://suap.ifrn.edu.br/api/v2/autenticacao/token/")
                 .bodyForm(form.build()).execute().returnResponse();
@@ -53,7 +46,7 @@ public class API {
     }
 
     @SuppressWarnings("unchecked")
-	public HashMap<String, String> buscarDados() throws IOException {
+	public String buscarDados() throws IOException {
     	String url = "https://suap.ifrn.edu.br/api/v2/minhas-informacoes/meus-dados/";
 
 		URL obj = new URL(url);
@@ -81,11 +74,10 @@ public class API {
 		in.close();
 
 		// print result
-		Gson gson = new Gson();
-		HashMap<String, String> meus_dados = gson.fromJson(response.toString(),
-														   HashMap.class); //você pode ultilizar o Gson ou org.json 
-   
-		return meus_dados;
+		//Gson gson = new Gson();
+		//HashMap<String, String> meus_dados = gson.fromJson(response.toString(), HashMap.class); //você pode ultilizar o Gson ou org.json 
+ 
+		return response.toString();
     }
 
     //get e set
@@ -94,7 +86,7 @@ public class API {
     }
 
     public void setToken(String token) {
-        API.token = token;
+        TesteAPI.token = token;
     }
 
     public String getMatricula() {
@@ -102,7 +94,7 @@ public class API {
     }
 
     public static void setMatricula(String matricula) {
-        API.matricula = matricula;
+        TesteAPI.matricula = matricula;
     }
 
     public String getSenha() {
@@ -110,7 +102,7 @@ public class API {
     }
 
     public static void setSenha(String senha) {
-        API.senha = senha;
+        TesteAPI.senha = senha;
     }
 
     public static HashMap<String, String> getMeus_dados() {
@@ -118,7 +110,7 @@ public class API {
     }
 
     public static void setMeus_dados(HashMap<String, String> meus_dados) {
-        API.meus_dados = meus_dados;
+        TesteAPI.meus_dados = meus_dados;
     }
 
 }

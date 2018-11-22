@@ -36,7 +36,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
         //URL's
-        String URL = "/IFRN-JC-COAPAC/";
+        String URL = "/coapac/";
         String URLpublica = URL + "publico/";
         String URLaluno = URL + "aluno/";
         String URLbolsista = URL + "bolsista/";

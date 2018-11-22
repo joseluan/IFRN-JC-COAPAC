@@ -44,20 +44,20 @@ public class UsuarioDAO implements Serializable{
         try {
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT x.quantidade FROM Limite x WHERE x.id = :id");
-            if (!ValidatorUtil.isEmpty(dados.get("curso"))) {
+            if (ValidatorUtil.isAluno(dados.get("matricula").toString())) {
                 query.setParameter("id", 1);
-                usuario.setVinculo(dados.get("curso").toString());
                 usuario.setTipo(TipoUsuario.ALUNO);
             } else {
                 query.setParameter("id", 2);
-                usuario.setVinculo(dados.get("cargo").toString());
                 usuario.setTipo(TipoUsuario.SERVIDOR);
             }
+            
+            usuario.setVinculo(dados.get("tipo_vinculo").toString());
             int quantidade = (int) query.getSingleResult();
             usuario.setQuantidade_copia(quantidade);
             usuario.setExpiracao_copia(new Date());
             usuario.setAcesso(TipoUsuario.ALUNO);
-            usuario.setNome(dados.get("nome").toString());
+            usuario.setNome(dados.get("nome_usual").toString());
             usuario.setSenha(Criptografia.esconderMD5(usuario.getSenha()));
             em.persist(usuario);
             em.getTransaction().commit();
@@ -78,14 +78,12 @@ public class UsuarioDAO implements Serializable{
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT x.quantidade FROM Limite x WHERE x.id = :id");
             // --- verifica se é ALUNO ou SERVIDOR
-            if (!ValidatorUtil.isEmpty(dados.get("curso"))) {
+            if (ValidatorUtil.isAluno(dados.get("matricula").toString())) {
                 // --- ALUNO ---
                 query.setParameter("id", 1);
-                usuario.setVinculo(dados.get("curso").toString());
             } else {
                 // --- SERVIDOR ---
                 query.setParameter("id", 2);
-                usuario.setVinculo(dados.get("cargo").toString());
             }
             int quantidade = (int) query.getSingleResult();
 
@@ -97,7 +95,9 @@ public class UsuarioDAO implements Serializable{
                 usuario.setQuantidade_copia(quantidade);
                 usuario.setExpiracao_copia(hoje);
             }
-            usuario.setNome(dados.get("nome").toString());
+            
+            usuario.setVinculo(dados.get("tipo_vinculo").toString());
+            usuario.setNome(dados.get("nome_usual").toString());
             usuario.setSenha(Criptografia.esconderMD5(usuario.getSenha()));
 
             em.merge(usuario);

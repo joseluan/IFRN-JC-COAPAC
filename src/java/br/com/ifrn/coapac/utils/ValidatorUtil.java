@@ -52,4 +52,8 @@ public class ValidatorUtil {
 		return !isEmpty(o);
 	}
 	
+	public static final boolean isAluno(String m) {
+		return m.length() > 12 ? true : false;
+	}
+	
 }
